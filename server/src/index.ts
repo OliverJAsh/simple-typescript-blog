@@ -43,7 +43,7 @@ const loadPost = (fileName: string): Promise<PostJson> => loadJsonFile<PostJson>
 
 const readdir = denodeify(fs.readdir);
 const postsPromise: Promise<Array<PostJson>> = (
-    readdir(postsDir).then(fileNames => Promise.all(fileNames.map(fileName => loadPost(fileName))))
+    readdir(postsDir).then(fileNames => Promise.all(fileNames.map(loadPost)))
 );
 const postsMapPromise = postsPromise.then(posts => posts.reduce((acc, post) => {
     acc.set(getPostSlug(post), post);
@@ -54,7 +54,8 @@ const getPost = (year: string, month: string, date: string, title: string): Prom
     postsMapPromise.then(postsMap => postsMap.get(`${year}/${month}/${date}/${title}`))
 );
 
-const getPostSlug = (postJson: PostJson) => (
+
+const getPostSlug = (postJson: PostJson): string => (
     `${dateFormat(new Date(postJson.date), 'yyyy/mm/dd')}/${slug(postJson.title, { lower: true })}`
 );
 

@@ -5,5 +5,11 @@
         "module": "commonjs",
         "outDir": "./target"
     },
-    "files": ["./src/index.ts"]
+    "files": [
+        "./typings/main.d.ts",
+        "./manual-typings/main.d.ts",
+        // https://github.com/Microsoft/TypeScript/issues/3005
+        "./../node_modules/typescript/lib/lib.es6.d.ts",
+        "./src/index.ts"
+    ]
 }
